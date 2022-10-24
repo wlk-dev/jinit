@@ -59,66 +59,78 @@ void setup_node() {
 }
 
 void setup_normal(){
+        char *dirs[] = {"assets", "assets/css", "assets/imgs", "assets/scripts"};
+        char *files[] = {"index.html", ".env"};
+
+        int dlen = sizeof(dirs)/sizeof(dirs[0]);
+        int flen = sizeof(files)/sizeof(files[0]);
+
         announce("[NORMAL] START");
 
-        make_dir("assets");
-        make_dir("assets/css");
-        make_dir("assets/img");
-        make_dir("assets/scripts");
-        
+        for(int i = 0; i < dlen; i++) {
+                make_dir(dirs[i]);
+        }
+
         done("DIRS");
+        
 
-        make_file("index.html");
-        make_file(".env");
-
+        for(int i = 0; i < flen; i++) {
+                make_file(files[i]);
+        }
+        
         done("FILES");
-
         announce("[NORMAL] END\n");
 }
 
 void setup_express() {
+        char *dirs[] = {"routes", "routes/api", "middleware", "public", "public/images", "public/pages", "public/scripts", "public/styles"};
+        char *files[] = {"routes/index.js", "routes/api/index.js", "public/index.js", "public/pages/404.html", "server.js"};
+
+        int dlen = sizeof(dirs)/sizeof(dirs[0]);
+        int flen = sizeof(files)/sizeof(files[0]);
+
         announce("[EXPRESS] START");
 
-        make_dir("routes");
-        make_dir("routes/api");
-        make_dir("middleware");
-        make_dir("public");
-        make_dir("public/images");
-        make_dir("public/pages");
-        make_dir("public/scripts");
-        make_dir("public/styles");
+        for(int i = 0; i < dlen; i++) {
+                make_dir(dirs[i]);
+        }
 
         done("DIRS");
+        
 
-        make_file("routes/index.js");
-        make_file("routes/api/index.js");
-        make_file("public/index.js");
-        make_file("public/pages/404.html");
-        make_file("server.js");
-
+        for(int i = 0; i < flen; i++) {
+                make_file(files[i]);
+        }
+        
         done("FILES");
+        
+        announce("[EXPRESS] END");
 
-        announce("[EXPRESS] END\n");
 }
 
 void setup_sql() {
-        announce("[SQL] START");        
+        char *dirs[] = {"models", "seeds", "db"};
+        char *files[] = {"models/index.js", "seeds/seed.js", "db/schema.sql", "db/seeds.sql"};
 
-        make_dir("models");
-        make_dir("seeds");
-        make_dir("db");
+        int dlen = sizeof(dirs)/sizeof(dirs[0]);
+        int flen = sizeof(files)/sizeof(files[0]);
+
+        announce("[SQL] START");
+
+        for(int i = 0; i < dlen; i++) {
+                make_dir(dirs[i]);
+        }
 
         done("DIRS");
+        
 
-        make_file("models/index.js");
-        make_file("seeds/seed.js");
-
-        make_file("db/schema.sql");
-        make_file("db/seeds.sql");
-
+        for(int i = 0; i < flen; i++) {
+                make_file(files[i]);
+        }
+        
         done("FILES");
-
-        announce("[SQL] END\n");
+        
+        announce("[SQL] END");
 }
 
 int main(int argc, char *argv[]){
@@ -131,7 +143,7 @@ int main(int argc, char *argv[]){
         while((opt = getopt(argc, argv, "nqe")) != -1) {
                 switch(opt) {
                         case 'n':
-                                system("echo normal");
+                                setup_normal();
                                 break;
                         case 'q':
                                 setup_sql();
