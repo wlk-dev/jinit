@@ -124,27 +124,35 @@ void setup_sql() {
 int main(int argc, char *argv[]){
 
         int opt;
-        opt = getopt(argc, argv, "neqd");
+        int flag = 0; 
+
+        char *usage = "Usage: -n normal, -e express, -q sql";
         
-        if (opt != -1) {
-                setup_node();
+        while((opt = getopt(argc, argv, "nqe")) != -1) {
+                switch(opt) {
+                        case 'n':
+                                system("echo normal");
+                                break;
+                        case 'q':
+                                setup_sql();
+                                break;
+                        case 'e':
+                                setup_express();
+                                break;
+                        default:
+                                fprintf(stderr, usage, argv[0]);
+                                exit(EXIT_FAILURE);
+
+                }
+
+                if (opt != -1 && !flag) {
+                        flag = 1;
+                }
+        }
+        if(flag) {
+            setup_node();
         }
 
-        switch(opt) {
-                case 'n':
-                        system("echo normal");
-                        break;
-                case 'q':
-                        setup_sql();
-                case 'e':
-                        setup_express();
-                        break;
-                default:
-                        printf("Usage: -n normal, -e express, -q express + sql");
-                        exit(EXIT_FAILURE);
-
-        }
-        
         return 0;
 }
 
