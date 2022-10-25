@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <Windows.h>
 
+#define sizeofa(array) sizeof array / sizeof array[ 0 ]
+
 void setcolor(int color) {
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
