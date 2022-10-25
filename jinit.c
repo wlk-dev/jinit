@@ -1,54 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <Windows.h>
-
-void setcolor(int color) {
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-}
-
-void make_file(char *fname) {
-        if (access(fname, F_OK) == 0) {
-                setcolor(4); // 4 = RED
-                printf("[mkf] %s already exists, skipping...\n", fname);
-                setcolor(15);// 15 = WHITE
-        } else {
-                FILE *fp = NULL;
-                
-                fp = fopen(fname, "a");
-                fclose(fp);
-                
-                setcolor(14);// 14 = YELLOW
-                printf("[mkf] %s\n", fname);
-                setcolor(15);//15 = WHITE
-        }
-
-}
-
-void make_dir(char *dname) {
-        if (mkdir(dname)){
-                setcolor(4);
-                printf("[mkd] %s already exists, skipping...\n", dname);
-                setcolor(15);
-        } else {
-                setcolor(14);
-                printf("[mkd] %s\n", dname);
-                setcolor(15);
-        }
-}
-
-void done(char *text) {
-        setcolor(2); // 2 = GREEN
-        printf("[%s] DONE\n", text);
-        setcolor(15); // 15 = WHITE
-}
-
-void announce(char *text){
-        setcolor(3);// 3 = CYAN
-        puts(text);
-        setcolor(15);// 15 = WHITE
-}
+#include "utils.h"
 
 void setup_node() {
         if (access("package.json", F_OK) == 0) {
@@ -64,22 +17,9 @@ void setup_normal(){
 
         int dlen = sizeof(dirs)/sizeof(dirs[0]);
         int flen = sizeof(files)/sizeof(files[0]);
-
-        announce("[NORMAL] START");
-
-        for(int i = 0; i < dlen; i++) {
-                make_dir(dirs[i]);
-        }
-
-        done("DIRS");
         
+        setup(dirs, files, dlen, flen, "NORMAL");
 
-        for(int i = 0; i < flen; i++) {
-                make_file(files[i]);
-        }
-        
-        done("FILES");
-        announce("[NORMAL] END\n");
 }
 
 void setup_express() {
@@ -89,23 +29,7 @@ void setup_express() {
         int dlen = sizeof(dirs)/sizeof(dirs[0]);
         int flen = sizeof(files)/sizeof(files[0]);
 
-        announce("[EXPRESS] START");
-
-        for(int i = 0; i < dlen; i++) {
-                make_dir(dirs[i]);
-        }
-
-        done("DIRS");
-        
-
-        for(int i = 0; i < flen; i++) {
-                make_file(files[i]);
-        }
-        
-        done("FILES");
-        
-        announce("[EXPRESS] END");
-
+        setup(dirs, files, dlen, flen, "EXPRESS");
 }
 
 void setup_sql() {
@@ -115,22 +39,7 @@ void setup_sql() {
         int dlen = sizeof(dirs)/sizeof(dirs[0]);
         int flen = sizeof(files)/sizeof(files[0]);
 
-        announce("[SQL] START");
-
-        for(int i = 0; i < dlen; i++) {
-                make_dir(dirs[i]);
-        }
-
-        done("DIRS");
-        
-
-        for(int i = 0; i < flen; i++) {
-                make_file(files[i]);
-        }
-        
-        done("FILES");
-        
-        announce("[SQL] END");
+        setup(dirs, files, dlen, flen, "SQL");
 }
 
 int main(int argc, char *argv[]){
