@@ -4,11 +4,16 @@
 #include "utils.h"
 
 void setup_node() {
+        make_file(".gitignore");
+        set_color(fgORANGE);
         if (access("package.json", F_OK) == 0) {
+                puts("\nexec : npm i");
                 system("npm i");
         } else {
+                puts("\nexec : npm init -y");
                 system("npm init -y");
         }
+        
 }
 
 void setup_normal(){
@@ -34,7 +39,7 @@ void setup_express() {
 
 void setup_sql() {
         char *dirs[] = {"models", "seeds", "db"};
-        char *files[] = {"models/index.js", "seeds/seed.js", "db/schema.sql", "db/seeds.sql"};
+        char *files[] = {".env", "models/index.js", "seeds/seed.js", "db/schema.sql", "db/seeds.sql"};
 
         int dlen = sizeofa(dirs);
         int flen = sizeofa(files);
@@ -44,7 +49,7 @@ void setup_sql() {
 
 void setup_mvc() {
         char *dirs[] = {"config", "controllers", "controllers/api" ,"utils", "views", "views/layouts", "views/partials", "public", "public/css", "public/images", "public/js"};
-        char *files[] = {".env", "controllers/index.js", "controllers/api/index.js", "controllers/home-routes", "config/connection.js"};
+        char *files[] = {"controllers/index.js", "controllers/api/index.js", "controllers/home-routes", "config/connection.js"};
 
         int dlen = sizeofa(dirs);
         int flen = sizeofa(files);

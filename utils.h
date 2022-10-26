@@ -1,52 +1,57 @@
 #include <stdio.h>
-#include <Windows.h>
+#include <stdlib.h>
+#include "termcolors.h"
 
 #define sizeofa(array) sizeof array / sizeof array[ 0 ]
 
-void setcolor(int color) {
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+void reset_color(){
+        //system(" ");
+        printf("\e(B\e[m");
+
 }
 
+void set_color(int foreground) {
+        system(" ");
+        printf("\e[3;%dm", foreground);
+}
+
+
 void done(char *text) {
-        setcolor(2); // 2 = GREEN
+        set_color(fgGREEN); 
         printf("[%s] DONE\n", text);
-        setcolor(15); // 15 = WHITE
 }
 
 void announce(char *exec, char *indicator){
-        setcolor(3);// 3 = CYAN
+        set_color(fgCYAN); 
         printf("[%s] %s\n", exec, indicator);
-        setcolor(15);// 15 = WHITE
 }
 
 void make_file(char *fname) {
         if (access(fname, F_OK) == 0) {
-                setcolor(4); // 4 = RED
-                printf("[mkf] %s already exists, skipping...\n", fname);
-                setcolor(15);// 15 = WHITE
+                system(" "); 
+                printf("\e[1;31m[mkf] %s already exists, skipping...\n", fname);
         } else {
                 FILE *fp = NULL;
                 
                 fp = fopen(fname, "a");
                 fclose(fp);
-                
-                setcolor(14);// 14 = YELLOW
+        
+                set_color(fgYELLOW);
                 printf("[mkf] %s\n", fname);
-                setcolor(15);//15 = WHITE
         }
 
+        reset_color();
 }
 
 void make_dir(char *dname) {
         if (mkdir(dname)){
-                setcolor(4);
+                set_color(fgYELLOW);
                 printf("[mkd] %s already exists, skipping...\n", dname);
-                setcolor(15);
         } else {
-                setcolor(14);
+                set_color(fgYELLOW);
                 printf("[mkd] %s\n", dname);
-                setcolor(15);
         }
+        reset_color();
 }
 
 
