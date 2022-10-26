@@ -10,20 +10,20 @@ void reset_color(){
 
 }
 
-void set_color(int foreground) {
+void set_color(int foreground, int attribute) {
         system(" ");
-        printf("\e[3;%dm", foreground);
+        printf("\e[%d;1;%dm", foreground, attribute);
 }
 
 
 void done(char *text) {
-        set_color(fgGREEN); 
-        printf("[%s] DONE\n", text);
+        set_color(fgGREEN, atrSTANDARD); 
+        printf("[%s] DONE\e[0m\n", text);
 }
 
 void announce(char *exec, char *indicator){
-        set_color(fgCYAN); 
-        printf("[%s] %s\n", exec, indicator);
+        set_color(fgCYAN, atrUNDERLINED); 
+        printf("[%s] %s\e[0m\n", exec, indicator);
 }
 
 void make_file(char *fname) {
@@ -36,7 +36,7 @@ void make_file(char *fname) {
                 fp = fopen(fname, "a");
                 fclose(fp);
         
-                set_color(fgYELLOW);
+                set_color(fgYELLOW, atrSTANDARD);
                 printf("[mkf] %s\n", fname);
         }
 
@@ -45,10 +45,10 @@ void make_file(char *fname) {
 
 void make_dir(char *dname) {
         if (mkdir(dname)){
-                set_color(fgYELLOW);
+                set_color(fgYELLOW, atrSTANDARD);
                 printf("[mkd] %s already exists, skipping...\n", dname);
         } else {
-                set_color(fgYELLOW);
+                set_color(fgYELLOW, atrSTANDARD);
                 printf("[mkd] %s\n", dname);
         }
         reset_color();
@@ -72,5 +72,3 @@ void setup(char *dirs[], char *files[], int dlen, int flen, char *name) {
         done("FILES");
         announce(name, "END");
 }
-
-

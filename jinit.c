@@ -5,7 +5,7 @@
 
 void setup_node() {
         make_file(".gitignore");
-        set_color(fgORANGE);
+        set_color(fgLIGHTRED, atrSTANDARD);
         if (access("package.json", F_OK) == 0) {
                 puts("\nexec : npm i");
                 system("npm i");
@@ -13,7 +13,7 @@ void setup_node() {
                 puts("\nexec : npm init -y");
                 system("npm init -y");
         }
-        
+        reset_color();
 }
 
 void setup_normal(){
