@@ -49,7 +49,7 @@ void setup_sql() {
 
 void setup_mvc() {
         char *dirs[] = {"config", "controllers", "controllers/api" ,"utils", "views", "views/layouts", "views/partials", "public", "public/css", "public/images", "public/js"};
-        char *files[] = {"controllers/index.js", "controllers/api/index.js", "controllers/home-routes", "config/connection.js"};
+        char *files[] = {"controllers/index.js", "controllers/api/index.js", "controllers/home-routes.js", "config/connection.js"};
 
         int dlen = sizeofa(dirs);
         int flen = sizeofa(files);
